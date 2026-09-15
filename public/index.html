@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Sync</title>
+</head>
+<body>
+    <textarea id="textInput" rows="10" cols="50" placeholder="Type something..."></textarea>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const textInput = document.getElementById('textInput');
+
+        // Send typing data
+        textInput.addEventListener('input', () => {
+            socket.emit('typing-data', textInput.value);
+        });
+
+        // Receive typing data from others
+        socket.on('update-typing', (data) => {
+            textInput.value = data;
+        });
+    </script>
+</body>
+</html>
